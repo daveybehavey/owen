@@ -65,6 +65,44 @@ document.addEventListener('DOMContentLoaded', () => {
     renderItems(beats, 'beats');
     renderItems(kits, 'kits');
     renderItems(sounds, 'sounds');
+    // Cart modal logic
+const openCartBtn = document.getElementById('open-cart');
+const closeCartBtn = document.getElementById('close-cart');
+const cartModal = document.getElementById('cart-modal');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartSubtotal = document.getElementById('cart-subtotal');
+
+if (openCartBtn && cartModal) {
+  openCartBtn.addEventListener('click', () => {
+    const cartData = JSON.parse(localStorage.getItem('ocMusicCart')) || [];
+    cartItemsContainer.innerHTML = '';
+
+    if (!cartData.length) {
+      cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+      cartSubtotal.textContent = '0.00';
+    } else {
+      const list = document.createElement('ul');
+      let subtotal = 0;
+
+      cartData.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} x ${item.quantity} — $${(item.price * item.quantity).toFixed(2)}`;
+        list.appendChild(li);
+        subtotal += item.price * item.quantity;
+      });
+
+      cartItemsContainer.appendChild(list);
+      cartSubtotal.textContent = subtotal.toFixed(2);
+    }
+
+    cartModal.classList.remove('hidden');
+  });
+
+  closeCartBtn.addEventListener('click', () => {
+    cartModal.classList.add('hidden');
+  });
+}
+
 
     // Smooth scroll to top on logo click (index.html only)
 const logoLink = document.querySelector('.logo-link');
