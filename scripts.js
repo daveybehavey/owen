@@ -14,12 +14,14 @@ const sounds = [
   { id: 'sound2', name: 'FX Bundle', price: 7 }
 ];
 
-// 🛒 In-Memory Cart
-const cart = [];
+// 🛒 Cart: initialize from localStorage (IMPORTANT)
+// This preserves previous sessions and becomes our source of truth.
+let cart = JSON.parse(localStorage.getItem('ocMusicCart')) || [];
 
 // 🧠 Render Items to Grid
 function renderItems(items, containerId) {
   const container = document.getElementById(containerId);
+  if (!container) return;
   items.forEach(item => {
     const div = document.createElement('div');
     div.className = 'item';
@@ -35,7 +37,12 @@ function renderItems(items, containerId) {
   });
 }
 
-// ➕ Add to Cart Handler
+// 💾 Helper: persist cart immediately after changes
+function saveCart() {
+  localStorage.setItem('ocMusicCart', JSON.stringify(cart));
+}
+
+// ➕ Add to Cart Handler (immediate persist so modal shows latest)
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('add-to-cart')) {
     const itemEl = e.target.closest('.item');
@@ -50,74 +57,73 @@ document.addEventListener('click', function(e) {
       cart.push({ id, name, price, quantity: 1 });
     }
 
+    saveCart(); // ← persist now
     alert(`${name} added to cart!`);
   }
 });
 
-// 💾 Save cart on unload
-window.addEventListener('beforeunload', () => {
-  localStorage.setItem('ocMusicCart', JSON.stringify(cart));
-});
-
-// 🛍️ Checkout Page Display
+// 🛍️ Render sections + homepage-only features
 document.addEventListener('DOMContentLoaded', () => {
+  // If we're on the home page (shop grids exist) render products
   if (document.getElementById('beats')) {
     renderItems(beats, 'beats');
     renderItems(kits, 'kits');
     renderItems(sounds, 'sounds');
-    // Cart modal logic
-const openCartBtn = document.getElementById('open-cart');
-const closeCartBtn = document.getElementById('close-cart');
-const cartModal = document.getElementById('cart-modal');
-const cartItemsContainer = document.getElementById('cart-items');
-const cartSubtotal = document.getElementById('cart-subtotal');
 
-if (openCartBtn && cartModal) {
-  openCartBtn.addEventListener('click', () => {
-    const cartData = JSON.parse(localStorage.getItem('ocMusicCart')) || [];
-    cartItemsContainer.innerHTML = '';
+    // 🛒 Cart modal logic (home page only)
+    const openCartBtn = document.getElementById('open-cart');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartModal = document.getElementById('cart-modal');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartSubtotal = document.getElementById('cart-subtotal');
 
-    if (!cartData.length) {
-      cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
-      cartSubtotal.textContent = '0.00';
-    } else {
+    function renderCartInModal() {
+      cartItemsContainer.innerHTML = '';
+      if (!cart.length) {
+        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+        if (cartSubtotal) cartSubtotal.textContent = '0.00';
+        return;
+      }
       const list = document.createElement('ul');
       let subtotal = 0;
-
-      cartData.forEach(item => {
+      cart.forEach(item => {
         const li = document.createElement('li');
         li.textContent = `${item.name} x ${item.quantity} — $${(item.price * item.quantity).toFixed(2)}`;
         list.appendChild(li);
         subtotal += item.price * item.quantity;
       });
-
       cartItemsContainer.appendChild(list);
-      cartSubtotal.textContent = subtotal.toFixed(2);
+      if (cartSubtotal) cartSubtotal.textContent = subtotal.toFixed(2);
     }
 
-    cartModal.classList.remove('hidden');
-  });
+    if (openCartBtn && cartModal) {
+      openCartBtn.addEventListener('click', () => {
+        renderCartInModal();              // ← show latest state
+        cartModal.classList.remove('hidden');
+      });
+    }
+    if (closeCartBtn && cartModal) {
+      closeCartBtn.addEventListener('click', () => {
+        cartModal.classList.add('hidden');
+      });
+    }
 
-  closeCartBtn.addEventListener('click', () => {
-    cartModal.classList.add('hidden');
-  });
-}
-
-
-    // Smooth scroll to top on logo click (index.html only)
-const logoLink = document.querySelector('.logo-link');
-if (logoLink) {
-  logoLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
-
+    // 🔝 Smooth scroll to top on logo click (index.html only)
+    const logoLink = document.querySelector('.logo-link');
+    if (logoLink) {
+      logoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   }
 
+  // 🧾 Checkout Page Display
   if (window.location.pathname.includes('checkout.html')) {
     const cartData = JSON.parse(localStorage.getItem('ocMusicCart')) || [];
     const container = document.getElementById('cart-contents');
+
+    if (!container) return;
 
     if (!cartData.length) {
       container.innerHTML = '<p>Your cart is empty.</p>';
@@ -140,3 +146,6 @@ if (logoLink) {
     }
   }
 });
+
+// (Optional safety) still keep beforeunload, but it’s redundant now:
+// window.addEventListener('beforeunload', saveCart);
