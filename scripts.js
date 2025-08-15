@@ -65,6 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderItems(beats, 'beats');
     renderItems(kits, 'kits');
     renderItems(sounds, 'sounds');
+
+    // Smooth scroll to top on logo click (index.html only)
+const logoLink = document.querySelector('.logo-link');
+if (logoLink) {
+  logoLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
   }
 
   if (window.location.pathname.includes('checkout.html')) {
