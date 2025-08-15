@@ -1,0 +1,82 @@
+/* 🔧 Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 0 1rem;
+  line-height: 1.6;
+}
+
+/* 🟩 Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.cart a {
+  text-decoration: none;
+}
+
+/* 🟦 Hero Section */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+/* 🟨 Shop Section */
+.shop {
+  padding: 2rem 0;
+}
+.shop h2 {
+  margin-top: 2rem;
+}
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.item {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.item button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+/* 🟫 Footer */
+.site-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid #ccc;
+}
+.social-links {
+  margin-top: 0.5rem;
+}
+
+/* 🛍️ Checkout & Success */
+.checkout, .success {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.btn {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background: #222;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
