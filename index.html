@@ -7,23 +7,24 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <a id="top"></a>
 
-  <!-- 🟩 HEADER -->
+  <!-- 🟩 HEADER (fixed) -->
   <header class="site-header">
-    <div class="logo"><a href="#" class="logo-link">🎵 oc.music</a></div>
+    <div class="logo"><a href="#" class="logo-link">oc<span style="color:#ff2e63">.</span>music</a></div>
     <div class="cart"><button id="open-cart">🛒 Cart</button></div>
   </header>
 
-  <!-- 🟦 HERO SECTION -->
+  <!-- 🟦 HERO (full viewport) -->
   <section class="hero">
-    <h1>Find Your Sound</h1>
-    <p>Browse exclusive beats, kits, and sound packs</p>
+    <div class="container">
+      <h1>Find Your Sound</h1>
+      <p>Exclusive rage beats, hard kits, and sound packs for creators who like it loud.</p>
+    </div>
+    <!-- optional scroll cue -->
     <a href="#shop" class="scroll-cue" aria-label="Scroll to shop"></a>
-
   </section>
 
-  <!-- 🟨 SHOP SECTION -->
+  <!-- 🟨 SHOP -->
   <section class="shop" id="shop">
     <h2>Beats</h2>
     <div class="shop-grid" id="beats"></div>
@@ -45,20 +46,19 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
-
-  <!-- 🛒 Cart Popup Modal -->
-<div id="cart-modal" class="cart-modal hidden">
-  <div class="cart-modal-content">
-    <h2>Your Cart</h2>
-    <div id="cart-items"></div>
-    <p class="subtotal"><strong>Subtotal:</strong> $<span id="cart-subtotal">0.00</span></p>
-    <div class="modal-buttons">
-      <a href="checkout.html" class="btn">Go to Checkout</a>
-      <button id="close-cart" class="btn secondary">Close</button>
+  <!-- 🛒 CART POPUP MODAL -->
+  <div id="cart-modal" class="cart-modal hidden">
+    <div class="cart-modal-content">
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <p class="subtotal"><strong>Subtotal:</strong> $<span id="cart-subtotal">0.00</span></p>
+      <div class="modal-buttons">
+        <a href="checkout.html" class="btn">Go to Checkout</a>
+        <button id="close-cart" class="btn secondary">Close</button>
+      </div>
     </div>
   </div>
-</div>
 
+  <script src="scripts.js"></script>
 </body>
 </html>

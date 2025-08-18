@@ -1,11 +1,5 @@
 /* =========================================================
    oc.music — Dark + Edgy Electronic (Responsive + Abstract)
-   ---------------------------------------------------------
-   • Full-viewport hero (accounts for fixed header)
-   • Fluid type & spacing (clamp + responsive grids)
-   • Abstract neon shapes (lightweight, motion-aware)
-   • Modal/Toast styled cohesively
-   • Performance-friendly, responsive up to ultrawide
    ========================================================= */
 
 /* ---------- Theme Tokens ---------- */
@@ -49,6 +43,7 @@ body{
   padding: calc(var(--header-h) + 16px) var(--container-pad) 0;
   overflow-x:hidden;
 }
+body.no-header{ padding: var(--container-pad); } /* success page */
 a{color:var(--ink);text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -61,7 +56,7 @@ body::before{
     repeating-linear-gradient(0deg,  transparent 0 46px, rgba(255,255,255,.05) 46px 47px, transparent 47px 94px);
 }
 
-/* global container helper (works with your current markup) */
+/* container helper */
 .container{max-width:var(--container-max);margin-inline:auto;width:100%}
 
 /* ---------- Header (Fixed) ---------- */
@@ -102,7 +97,7 @@ body::before{
   display:flex; align-items:center; justify-content:center;
   text-align:center;
   padding: clamp(32px, 6vh, 72px) 0;
-  isolation:isolate; /* keep shapes behind content */
+  isolation:isolate;
 }
 .hero .container{max-width:min(70ch, var(--container-max))}
 .hero h1{
@@ -124,7 +119,7 @@ body::before{
   margin-inline:auto;
 }
 
-/* abstract neon shapes (lightweight) */
+/* abstract neon shapes */
 .hero::before,
 .hero::after{
   content:"";
@@ -150,7 +145,7 @@ body::before{
   transform: rotate(8deg);
 }
 
-/* scroll cue (optional anchor .scroll-cue in HTML) */
+/* optional scroll cue */
 .scroll-cue{
   position:absolute; left:50%; bottom: clamp(12px, 3vh, 28px);
   transform: translateX(-50%);
@@ -173,7 +168,17 @@ body::before{
 }
 
 /* ---------- Shop ---------- */
-.shop{padding: clamp(24px, 5vh, 56px) 0  clamp(28px, 6vh, 72px)}
+.shop{
+  padding: clamp(24px, 5vh, 56px) 0  clamp(28px, 6vh, 72px);
+}
+/* Desktop: constrain shop to ~80% viewport width */
+@media (min-width: 1024px) {
+  .shop {
+    width: 100%;
+    max-width: min(80vw, 1400px);
+    margin-inline: auto;
+  }
+}
 .shop > h2{
   margin-top: clamp(20px, 4vh, 40px);
   margin-bottom: .65rem;
@@ -186,7 +191,6 @@ body::before{
   background:linear-gradient(90deg, var(--magenta), transparent 55%);
 }
 
-/* grid scales from phones ➜ ultrawide */
 .shop-grid{
   display:grid; gap: clamp(12px, 1.6vw, 18px);
   grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 36vw, 280px), 1fr));
@@ -204,7 +208,6 @@ body::before{
   overflow:hidden;
   transition:transform .09s ease, border-color .2s ease, box-shadow .2s ease;
 }
-/* neon top edge */
 .item::before{
   content:""; position:absolute; left:-1px; right:-1px; top:-1px; height:2px;
   background:linear-gradient(90deg, var(--magenta), rgba(8,247,254,.65), transparent);
@@ -217,7 +220,39 @@ body::before{
 }
 .item h3{font-size: clamp(1rem, 1.6vw, 1.15rem); margin-bottom:.35rem}
 .item p{color:var(--muted)}
-.item button{margin-top:.6rem;width:100%}
+
+/* compact rage-red Add to Cart */
+.item button.add-to-cart,
+.add-to-cart{
+  font-size: .875rem;
+  padding: .45rem .75rem;
+  width: auto;
+  display: inline-flex; align-items: center; gap: .4ch;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 46, 99, .55);
+  background: linear-gradient(180deg, rgba(255, 46, 99, .28), rgba(255, 46, 99, .16));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.28), 0 0 12px rgba(255,46,99,.12);
+  letter-spacing: .02em; font-weight: 700;
+  transition: transform 60ms ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+  margin-top: .5rem;
+}
+.add-to-cart:hover{
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(255, 46, 99, .36), rgba(255, 46, 99, .22));
+  border-color: rgba(255, 46, 99, .75);
+  box-shadow: 0 10px 20px rgba(0,0,0,.35), 0 0 18px rgba(255,46,99,.22);
+}
+.add-to-cart:active{ transform: translateY(0); }
+.add-to-cart:focus-visible{
+  outline: 2px solid rgba(255, 46, 99, .9);
+  outline-offset: 2px;
+}
+@media (max-width: 380px){
+  .item button.add-to-cart, .add-to-cart{
+    width: 100%; justify-content: center;
+  }
+}
 
 /* category badges */
 #beats .item::after, #kits .item::after, #sounds .item::after{
@@ -243,7 +278,7 @@ body::before{
 .social-links a{color:var(--muted)}
 .social-links a:hover{color:#fff}
 
-/* ---------- Cart Modal (responsive) ---------- */
+/* ---------- Cart Modal ---------- */
 .cart-modal{
   position:fixed; inset:0;
   display:flex; align-items:center; justify-content:center;
@@ -331,19 +366,3 @@ body::before{
   *{ animation:none !important; transition:none !important; }
   body::before{ display:none; }
 }
-/* Desktop: constrain shop area to ~80% of viewport width */
-@media (min-width: 1024px) {
-  .shop {
-    max-width: 80vw;       /* target width */
-    margin-inline: auto;   /* center it */
-  }
-}
-
-@media (min-width: 1024px) {
-  .shop {
-    width: 100%;
-    max-width: min(80vw, 1400px);  /* 80% OR 1400px, whichever is smaller */
-    margin-inline: auto;
-  }
-}
-
