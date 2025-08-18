@@ -20,7 +20,7 @@ const beats = [
     bpm: 0,
     key: '?',
     cover: 'assets/images/covers/ChiefTypeBeatFaded.jpg',
-    previewUrl: 'assets/audio/previews/ChiefTypeBeatFaded.mp3',
+    previewUrl: 'assets/audio/previews/ChiefTypeBeatFadedPreview.mp3',
     downloadUrl: 'assets/audio/beats/Faded-Chief-Kief-Type-Beat.wav'
   },
   { id: 'beat2', name: 'Hard Hit', price: 15 }
@@ -51,24 +51,36 @@ const sounds = [
 // 🛒 Cart (source of truth)
 let cart = JSON.parse(localStorage.getItem('ocMusicCart')) || [];
 
-// Render Items
+// Render Items (with optional cover + FREE badge)
 function renderItems(items, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
+
+  const fmt = (p) => (Number(p) > 0 ? `$${Number(p).toFixed(2)}` : 'Free');
+
   items.forEach(item => {
+    const isFree = Number(item.price) === 0;
     const div = document.createElement('div');
     div.className = 'item';
     div.dataset.id = item.id;
     div.dataset.name = item.name;
     div.dataset.price = item.price;
+
     div.innerHTML = `
+      ${item.cover ? `
+        <div class="cover-wrap">
+          <img class="cover" src="${item.cover}" alt="${item.name} cover" loading="lazy">
+          ${isFree ? `<span class="badge badge-free">FREE</span>` : ``}
+        </div>
+      ` : ``}
       <h3>${item.name}</h3>
-      <p>$${item.price}</p>
+      <p class="price">${fmt(item.price)}</p>
       <button class="add-to-cart">Add to Cart</button>
     `;
     container.appendChild(div);
   });
 }
+
 
 // Persist cart
 function saveCart() {
