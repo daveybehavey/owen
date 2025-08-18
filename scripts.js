@@ -1,3 +1,18 @@
+// Ensure CSS --header-h matches the real header height (for perfect hero sizing)
+(function setHeaderHeightVar(){
+  function apply(){
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+    const h = header.offsetHeight || 64;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  window.addEventListener('load', apply);
+  window.addEventListener('resize', apply);
+  // Also update on orientation changes
+  window.matchMedia?.('(orientation: portrait)')?.addEventListener?.('change', apply);
+})();
+
+
 // 🟨 Sample Data for Beats, Kits, Sounds
 const beats = [
   { id: 'beat1', name: 'Smooth Beat', price: 10 },
