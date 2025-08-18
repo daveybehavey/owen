@@ -13,15 +13,38 @@
 
 // 🟨 Sample Data
 const beats = [
-  { id: 'beat1', name: 'Smooth Beat', price: 10 },
+  {
+    id: 'beat1',
+    name: 'Faded - Chief Kief Type Beat',
+    price: 0,
+    bpm: 0,
+    key: '?',
+    cover: 'assets/images/covers/ChiefTypeBeatFaded.jpg',
+    previewUrl: 'assets/audio/previews/ChiefTypeBeatFaded.mp3',
+    downloadUrl: 'assets/audio/beats/Faded-Chief-Kief-Type-Beat.wav'
+  },
   { id: 'beat2', name: 'Hard Hit', price: 15 }
 ];
 const kits = [
-  { id: 'kit1', name: 'Trap Kit', price: 12 },
+  {
+    id: 'kit1',
+    name: 'Rage Drum Kit Vol.1',
+    price: 18,
+    cover: 'assets/images/covers/rage-kit-v1.jpg',
+    previewUrl: 'assets/audio/previews/rage-kit-v1.mp3',   // optional
+    downloadUrl: 'assets/audio/kits/Rage-Drum-Kit-Vol1.zip'
+  },
   { id: 'kit2', name: 'Lo-Fi Kit', price: 8 }
 ];
 const sounds = [
-  { id: 'sound1', name: 'Ambient Pack', price: 5 },
+  {
+    id: 'sound1',
+    name: 'Glitch FX Bundle',
+    price: 9,
+    cover: 'assets/images/covers/glitch-fx.jpg',
+    previewUrl: 'assets/audio/previews/glitch-fx.mp3',      // optional
+    downloadUrl: 'assets/audio/sounds/Glitch-FX-Bundle.zip'
+  },
   { id: 'sound2', name: 'FX Bundle', price: 7 }
 ];
 
